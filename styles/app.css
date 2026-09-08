@@ -1,0 +1,403 @@
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  background: #f4efe7;
+  /* clip, not hidden: the runtime gives body height:100%, and
+     overflow-x:hidden would make body itself the scroll container
+     (breaking window.scrollTo and mobile URL-bar collapse) */
+  overflow-x: clip;
+}
+@keyframes ts-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ts-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--pulseC, rgba(200, 80, 30, 0.55));
+  }
+  70% {
+    box-shadow: 0 0 0 9px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+@keyframes ts-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ts-rise {
+  from {
+    transform: translateY(120%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes ts-offset {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(12px, 12px);
+  }
+}
+@keyframes ts-underline {
+  from {
+    background-size: 0% 2px;
+  }
+  to {
+    background-size: 100% 2px;
+  }
+}
+@keyframes ts-disco {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+@keyframes ts-flyby {
+  from {
+    transform: translateX(0) rotate(-6deg);
+  }
+  to {
+    transform: translateX(125vw) rotate(-6deg);
+  }
+}
+@keyframes ts-spark {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(24px) scale(0.3);
+  }
+}
+@keyframes ts-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(8deg);
+  }
+}
+@keyframes ts-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ts-sway {
+  0%,
+  100% {
+    transform: translateX(0) rotate(45deg);
+  }
+  50% {
+    transform: translateX(16px) rotate(52deg);
+  }
+}
+@keyframes ts-under8 {
+  from {
+    background-size: 0% 8px;
+  }
+  to {
+    background-size: 100% 8px;
+  }
+}
+@keyframes ts-sparkle {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotate(90deg);
+  }
+  100% {
+    transform: scale(0) rotate(180deg);
+    opacity: 0;
+  }
+}
+@keyframes ts-offsetFloat {
+  0%,
+  100% {
+    transform: translate(12px, 12px);
+  }
+  50% {
+    transform: translate(16px, 17px);
+  }
+}
+@keyframes ts-wave {
+  to {
+    transform: translateX(-16px);
+  }
+}
+@keyframes ts-ecg {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-64px);
+  }
+}
+@keyframes ts-linein {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes ts-arrowdraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- hero name: cursor-tracked 3D tilt ---------- */
+.ts-tilt-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 50%;
+}
+#spark-name {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+/* ---------- shine sweep on hover ---------- */
+.ts-shine {
+  position: relative;
+  overflow: hidden;
+}
+.ts-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+.ts-shine:hover::after {
+  transform: translateX(100%);
+}
+
+/* ---------- mobile overrides (must out-rank inline styles) ---------- */
+@media (max-width: 900px) {
+  .ts-nav {
+    flex-wrap: wrap !important;
+    padding: 14px 20px !important;
+    gap: 10px 12px !important;
+  }
+  .ts-nav-links {
+    flex-wrap: wrap !important;
+    gap: 10px 14px !important;
+  }
+  .ts-nav-dots {
+    padding-right: 12px !important;
+    gap: 8px !important;
+  }
+
+  #hero {
+    padding: 40px 20px 0 !important;
+  }
+  .ts-hero-top {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  #spark-name {
+    font-size: clamp(52px, 14vw, 104px) !important;
+  }
+  .ts-hero-row {
+    flex-direction: column !important;
+    gap: 36px !important;
+    padding: 32px 0 52px !important;
+  }
+  .ts-hero-photo {
+    max-width: 100% !important;
+  }
+  .ts-hero-photo img {
+    width: min(340px, calc(100vw - 52px)) !important;
+    height: auto !important;
+    aspect-ratio: 340 / 400 !important;
+  }
+  .ts-hero-copy {
+    padding-top: 0 !important;
+  }
+  .ts-hero-copy p {
+    font-size: 21px !important;
+  }
+  /* stats stay a single row; tighten padding so the 3 figures fit
+     and let long labels wrap to 2 lines instead of stacking */
+  .ts-hero-stats > div {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+  .ts-hero-stats > div:not(:first-child) {
+    padding-left: 12px !important;
+  }
+  .ts-hero-stats > div:not(:last-child) {
+    padding-right: 12px !important;
+  }
+  .ts-hero-ctas {
+    flex-wrap: wrap !important;
+  }
+  .ts-hero-ctas a {
+    flex: 1 1 140px !important;
+    text-align: center !important;
+  }
+
+  #work {
+    padding: 56px 20px 60px !important;
+  }
+  .ts-work-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+
+  #journey {
+    padding: 56px 20px 64px !important;
+  }
+  .ts-sec-head {
+    flex-wrap: wrap !important;
+    gap: 8px 12px !important;
+  }
+
+  #tl-track {
+    margin-left: 12px !important;
+    gap: 44px !important;
+  }
+  #tl-track > [data-reveal] {
+    padding-left: 30px !important;
+  }
+  /* date labels: from left gutter to inline above the entry */
+  #tl-track [style*='-172px'] {
+    position: static !important;
+    width: auto !important;
+    text-align: left !important;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  #play {
+    padding: 0 20px 64px !important;
+  }
+  #contact {
+    padding: 56px 20px 28px !important;
+  }
+  #spark-cta {
+    font-size: clamp(34px, 9vw, 56px) !important;
+  }
+  .ts-foot-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .ts-foot-links {
+    flex-wrap: wrap !important;
+    gap: 10px 20px !important;
+  }
+
+  /* 16px stops iOS zooming the page when the terminal is focused;
+     min-width lets the flex input shrink below its size-attr width */
+  #term-in {
+    font-size: 16px !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* nav no longer fits on one line: collapse the links into a
+     hamburger dropdown, but keep the theme-colour dots visible */
+  .ts-nav-burger {
+    display: flex !important;
+  }
+  .ts-nav-menu {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 12px;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    background: var(--navBg);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--ink);
+    padding: 18px 22px !important;
+    box-shadow: 5px 5px 0 var(--ink);
+    z-index: 60;
+  }
+  .ts-nav.is-open .ts-nav-menu {
+    display: flex !important;
+  }
+  .ts-sec-title {
+    font-size: 31px !important;
+  }
+  .ts-hero-copy p {
+    font-size: 19px !important;
+  }
+  #tl-track [data-tl-card] {
+    padding: 18px 16px !important;
+  }
+  #tl-track [data-tl-card] > div {
+    flex-wrap: wrap !important;
+    row-gap: 6px;
+  }
+  /* body copy runs large on the smallest screens — ease it down so
+     the timeline blurbs and work-experience points don't read like
+     titles */
+  #tl-track [style*='17px/1.55'] {
+    font-size: 15px !important;
+  }
+  .ts-work-grid [data-stagger] > span:last-child {
+    font-size: 16px !important;
+  }
+}
+
+/* fatter tap targets on touch devices (Apple/Google recommend
+   ~44px; the inline sizes are tuned for mouse pointers) */
+@media (pointer: coarse) {
+  .ts-nav-dots span {
+    width: 21px !important;
+    height: 21px !important;
+  }
+  .ts-nav-burger {
+    width: 44px !important;
+    height: 36px !important;
+  }
+  .ts-nav-menu > span {
+    font-size: 13px !important;
+  }
+  .ts-nav.is-open .ts-nav-menu {
+    gap: 22px !important;
+  }
+}
