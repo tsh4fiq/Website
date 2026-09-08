@@ -1,0 +1,32 @@
+/* static copy of the runtime's raw-template hide: lets support.js load
+   with defer (non-parser-blocking) without the template flashing */
+x-dc {
+  display: none !important;
+}
+@keyframes ts-veil-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ts-veil-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes ts-veil-hint {
+  to {
+    opacity: 0.7;
+  }
+}
+html.ts-preboot-dark,
+html.ts-preboot-dark body {
+  background: #1a1815 !important;
+}
+html.ts-preboot-dark #boot-veil {
+  background: #1a1815 !important;
+  color: #f0ebe2 !important;
+}
